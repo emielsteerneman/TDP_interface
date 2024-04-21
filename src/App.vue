@@ -8,16 +8,35 @@ let league_map = ref({})
 let teamname_map = ref({})
 let tdps = ref([])
 
-let league_filter_collapsed = ref(true)
+let league_filter_collapsed = ref(false)
 
 let checked = ref(false)
 
 let league_nav = reactive({})
 let league_filter = reactive({})
 
+let year_min = ref(2021)
+let year_max = ref(2024)
+
+function to_yearleagueteam(tdps){
+  let yearleagueteam = {}
+  for( let tdp of tdps ){
+    let year = tdp['y']
+    let league = tdp['l']
+    let team = tdp['t']
+    if( ! (year in yearleagueteam) ){
+      yearleagueteam[year] = {}
+    }
+    if( ! (league in yearleagueteam[year]) ){
+      yearleagueteam[year][league] = []
+    }
+    yearleagueteam[year][league].push(team)
+  }
+  return yearleagueteam
+}
+
 onBeforeMount(() => {
-  //someString = "Before Mount"
-  console.log(axios)
+
   axios.get("http://localhost:5000/api/tdps").then((response) => {
     console.log(response.data)
 
@@ -28,13 +47,20 @@ onBeforeMount(() => {
     tdps.value = response.data['tdps']
     
     let nav = {
-      'parts': {},
+      'parts': {
+        '(De)select all':{
+          'parts': {},
+          'ids': [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+        }},
       'ids' : []
     }
 
     Object.keys(_league_map).map( key => {
       league_filter[key] = false
     })
+    league_filter[9] = true
+    league_filter[10] = true
+    league_filter[11] = true
 
     // For each league in league_map
     for (let [key, [name, name_pretty]] of Object.entries(_league_map)) {
@@ -54,13 +80,12 @@ onBeforeMount(() => {
 
         currently_at = currently_at['parts'][name_part]
       }
-
-      console.log(nav)
-
     }
 
     league_nav = nav
     
+    console.log(to_yearleagueteam(tdps.value))
+
   })
 })
 
@@ -81,26 +106,41 @@ function toggleLeague(ids){
 
   <!-- league nested menu -->
   <div class="row">
-    <div class="col-md-2">
+
+    <div class="col-md-3">
+
+      <div class="row">
+        <div class="col-md-6">
+          <select class="form-select" aria-label="Default select example" v-model="year_min">
+            <option v-for="(e,year_offset) in 25" >{{2024-year_offset}}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <select class="form-select" aria-label="Default select example" v-model="year_max">
+            <option v-for="(e,year_offset) in 25" >{{2024-year_offset}}</option>
+          </select>
+        </div>
+      </div>
+
+      <br>
 
       <!-- button that collapses the list -->
-
-      <ul class="list-group" v-if="'parts' in league_nav">
+      <ul class="list-group user-select-none pointer" v-if="'parts' in league_nav">
         
-        <li data-bs-toggle="collapse" data-bs-target="#collapseExample" class="list-group-item" @click="league_filter_collapsed = !league_filter_collapsed">
+        <li data-bs-toggle="collapse" data-bs-target="#leagueFilter" class="list-group-item" @click="league_filter_collapsed = !league_filter_collapsed">
           <div v-if="league_filter_collapsed">
-            <b>v Leagues</b>
+            <b> Leagues</b><i class="bi bi-arrow-down float-end"></i>
           </div>
           <div v-else>
-            <b>^ Leagues</b>
+            <b> Leagues</b><i class="bi bi-arrow-up float-end"></i>
           </div>
         </li>
 
-        <div class="collapse" id="collapseExample">
+        <div class="collapse show" id="leagueFilter">
 
         <!-- Major-->
         <template v-for="[name_major, k_major] in Object.entries(league_nav.parts)">
-          <li class="list-group-item" @click="toggleLeague(k_major.ids)">
+          <li class="list-group-item pointer" @click="toggleLeague(k_major.ids)">
             <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_major.ids)" style="margin-right:15px"> <b>{{ name_major }}</b>
           </li>
           
@@ -132,18 +172,35 @@ function toggleLeague(ids){
       
       </ul>
     </div>
-  
-    <div class="col-9">
-      <template v-for="(tdp, index) in tdps" :key="index">
-        <!-- <template v-if=" teamname_map[tdp['t']][1].toLowerCase().includes(someString.toLowerCase())">
-          year : {{index}} - {{ teamname_map[tdp['t']][1] }} - {{ league_map[tdp['l']][1] }} - {{  tdp['y'] }} <br>    
-        </template> -->
 
-        <template v-if="league_filter[tdp['l']]">
-          year : {{index}} - {{ teamname_map[tdp['t']][1] }} - {{ league_map[tdp['l']][1] }} - {{  tdp['y'] }} <br>    
+
+    
+    <div class="col-md-8">
+
+      <template v-for="(e, year) in year_max - year_min + 1">
+        <h2>{{ year+year_min }}</h2>
+        
+        <template v-for="(tdp, index) in tdps" :key="index">
+          <!-- <template v-if=" teamname_map[tdp['t']][1].toLowerCase().includes(someString.toLowerCase())">
+            year : {{index}} - {{ teamname_map[tdp['t']][1] }} - {{ league_map[tdp['l']][1] }} - {{  tdp['y'] }} <br>    
+          </template> -->
+
+          <template v-if="league_filter[tdp['l']] && tdp['y'] == year+year_min">
+            
+            <div style="display: inline-block; padding: 10px;">
+              <b>{{ teamname_map[tdp['t']][1] }}</b> - {{ league_map[tdp['l']][1] }} <br>    
+            </div>
+          </template>
         </template>
+
       </template>
     </div>
 
   </div>
 </template>
+
+<style>
+.pointer {
+  cursor: pointer;
+}
+</style>
