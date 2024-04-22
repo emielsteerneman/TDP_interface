@@ -2,43 +2,55 @@
 import { ref, computed, reactive, onBeforeMount } from 'vue'
 import axios from 'axios';
 import TDPBlade from './components/TDPBlade.vue'
+import LeagueSelect from './components/LeagueSelect.vue';
 
-let someString = ref('Hello World??')
+import { to_yearleagueteam } from './utilities';
+
+let teamname_filter = ref('')
 let league_map = ref({})
 let teamname_map = ref({})
 let tdps = ref([])
 
-let league_filter_collapsed = ref(false)
-
-let checked = ref(false)
-
 let league_nav = reactive({})
 let league_filter = reactive({})
 
-let year_min = ref(2021)
-let year_max = ref(2024)
+const hostname = window.location.hostname
 
-function to_yearleagueteam(tdps){
-  let yearleagueteam = {}
-  for( let tdp of tdps ){
-    let year = tdp['y']
-    let league = tdp['l']
-    let team = tdp['t']
-    if( ! (year in yearleagueteam) ){
-      yearleagueteam[year] = {}
+const current_year = new Date().getFullYear()
+const year_range = Array.from({length: 25}, (_, i) => current_year-i)
+
+const year_min = ref(2021)
+const year_max = ref(current_year)
+
+const tdps_filtered = computed(() => {
+  console.log("tdps_filtered()")
+  
+  let tdps_filtered_list = []
+  for( let tdp of tdps.value ){
+    if( year_min.value <= tdp['y'] && tdp['y'] <= year_max.value){
+      if( league_filter[tdp['l']] ){
+        console.log(teamname_filter.value)
+        if (teamname_filter.value.length == 0){
+          tdps_filtered_list.push(tdp)
+        } else {
+          let teamname = teamname_map.value[tdp['t']][1]
+          if( teamname.toLowerCase().includes(teamname_filter.value.toLowerCase()) ){
+            tdps_filtered_list.push(tdp)
+          }
+        }
+      }
     }
-    if( ! (league in yearleagueteam[year]) ){
-      yearleagueteam[year][league] = []
-    }
-    yearleagueteam[year][league].push(team)
   }
-  return yearleagueteam
-}
+  
+  return to_yearleagueteam(tdps_filtered_list)
+})
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
 
-  axios.get("http://localhost:5000/api/tdps").then((response) => {
-    console.log(response.data)
+  console.log("onBeforeMount()")
+
+  await axios.get("http://"+hostname+":5000/api/tdps").then((response) => {
+    console.log("Axios response retrieved")
 
     let _league_map = response.data['league_map']
 
@@ -83,10 +95,10 @@ onBeforeMount(() => {
     }
 
     league_nav = nav
-    
-    console.log(to_yearleagueteam(tdps.value))
 
   })
+
+  console.log("onBeforeMount() finished")
 })
 
 function leagueIsActive(ids){
@@ -98,101 +110,79 @@ function toggleLeague(ids){
   ids.map(id => league_filter[id] = toActive)
 }
 
+
+
 </script>
 
 <template>
-  <input type="text" v-model="someString" />
-  <hr>
 
+  <br>
   <!-- league nested menu -->
   <div class="row">
 
     <div class="col-md-3">
 
-      <div class="row">
-        <div class="col-md-6">
-          <select class="form-select" aria-label="Default select example" v-model="year_min">
-            <option v-for="(e,year_offset) in 25" >{{2024-year_offset}}</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <select class="form-select" aria-label="Default select example" v-model="year_max">
-            <option v-for="(e,year_offset) in 25" >{{2024-year_offset}}</option>
-          </select>
-        </div>
+      <div class="input-group">
+        <span class="input-group-text">
+          <b>Team name</b>
+        </span>
+        <input type="text" class="form-control" v-model="teamname_filter">
       </div>
 
       <br>
 
-      <!-- button that collapses the list -->
-      <ul class="list-group user-select-none pointer" v-if="'parts' in league_nav">
-        
-        <li data-bs-toggle="collapse" data-bs-target="#leagueFilter" class="list-group-item" @click="league_filter_collapsed = !league_filter_collapsed">
-          <div v-if="league_filter_collapsed">
-            <b> Leagues</b><i class="bi bi-arrow-down float-end"></i>
-          </div>
-          <div v-else>
-            <b> Leagues</b><i class="bi bi-arrow-up float-end"></i>
-          </div>
-        </li>
+      <!-- Year range -->
+      <div class="input-group">
+        <span class="input-group-text">
+          <b>From</b>
+        </span>
+        <select class="form-select form-control" aria-label="Default select example" v-model.number="year_min">
+          <option v-for="year in year_range" >{{year}}</option>
+        </select>
+        <span class="input-group-text">
+          <b>To</b>
+        </span>
+        <select class="form-select" aria-label="Default select example" v-model.number="year_max">
+          <option v-for="year in year_range" >{{year}}</option>
+        </select>
+      </div>
 
-        <div class="collapse show" id="leagueFilter">
+      <br>
 
-        <!-- Major-->
-        <template v-for="[name_major, k_major] in Object.entries(league_nav.parts)">
-          <li class="list-group-item pointer" @click="toggleLeague(k_major.ids)">
-            <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_major.ids)" style="margin-right:15px"> <b>{{ name_major }}</b>
-          </li>
-          
-          <!-- Minor-->
-          <template v-for="[name_minor, k_minor] in Object.entries(k_major.parts)">
-            <li class="list-group-item" @click="toggleLeague(k_minor.ids)">
-              <div style="margin-left: 30px;">
-                <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_minor.ids)" style="margin-right:15px"> {{ name_minor }}
-              </div>
-            </li>
-            
-            <!-- Sub -->
-            <template v-for="[name_sub, k_sub] in Object.entries(k_minor.parts)">
-              <li class="list-group-item" @click="toggleLeague(k_sub.ids)">
-                <div style="margin-left: 60px;">
-                  <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_sub.ids)" style="margin-right:15px"> {{ name_sub }}
-                </div>
-              </li>
-            </template>
-            <!-- // Sub -->
+      <LeagueSelect :league_filter :league_nav />
 
-          </template>
-          <!-- // Minor-->
-
-        </template>
-        <!-- // Major-->
-
-        </div>
-      
-      </ul>
+      <br>
     </div>
 
 
-    
-    <div class="col-md-8">
+    <div class="col-md-9">
 
-      <template v-for="(e, year) in year_max - year_min + 1">
-        <h2>{{ year+year_min }}</h2>
-        
-        <template v-for="(tdp, index) in tdps" :key="index">
-          <!-- <template v-if=" teamname_map[tdp['t']][1].toLowerCase().includes(someString.toLowerCase())">
-            year : {{index}} - {{ teamname_map[tdp['t']][1] }} - {{ league_map[tdp['l']][1] }} - {{  tdp['y'] }} <br>    
-          </template> -->
-
-          <template v-if="league_filter[tdp['l']] && tdp['y'] == year+year_min">
+      <template v-for="year in year_range">
+        <template v-if="year in tdps_filtered">
+          <h2>{{ year }}</h2>
+          <template v-for="([league_name, league_name_pretty], league_idx) in league_map">
             
-            <div style="display: inline-block; padding: 10px;">
-              <b>{{ teamname_map[tdp['t']][1] }}</b> - {{ league_map[tdp['l']][1] }} <br>    
-            </div>
-          </template>
-        </template>
+            <template v-if="league_idx in tdps_filtered[year]">
+              <div>
+                <b>{{  league_name_pretty }}</b>
+              </div>
 
+              <template v-for = "team_idx in tdps_filtered[year][league_idx]">
+                <div style="display: inline-block; padding: 10px;">
+                  <div v-if="teamname_map[team_idx][1] == 'RoboTeam Twente'">
+                    <b style="color: purple; font-size: 1.5em;">{{ teamname_map[team_idx][1] }}</b>
+                  </div>
+                  <div v-else>
+                    {{ teamname_map[team_idx][1] }}
+                  </div>
+                </div>
+              </template>
+
+            </template>
+
+          </template>
+
+        </template>
       </template>
     </div>
 
