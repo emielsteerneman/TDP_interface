@@ -47,10 +47,6 @@ const currentView = computed(() => {
 
   <Navbar />
   <br><br><br>
-
-  <div style="font-size: 10em">Emy is AMAAAAAAAAZING!!!!!!</div>
-  <div style="font-size: 2em">stem ons voor OC!</div>
-  <br><br><br>
   
   <component :is="currentView" />
 </template>
