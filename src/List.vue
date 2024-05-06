@@ -49,7 +49,10 @@ onBeforeMount(async () => {
 
   console.log("onBeforeMount()")
 
-  await axios.get("http://"+hostname+":5000/api/tdps").then((response) => {
+  let URL = "https://functionapp-test-dotenv-310.azurewebsites.net/api/tdps"
+  //URL = "http://"+hostname+":5000/api/tdps"
+
+  await axios.get(URL).then((response) => {
     console.log("Axios response retrieved")
 
     let _league_map = response.data['league_map']
