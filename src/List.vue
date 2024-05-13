@@ -19,7 +19,7 @@ const hostname = window.location.hostname
 const current_year = new Date().getFullYear()
 const year_range = Array.from({length: 25}, (_, i) => current_year-i)
 
-const year_min = ref(2021)
+const year_min = ref(current_year-1)
 const year_max = ref(current_year)
 
 const tdps_filtered = computed(() => {
@@ -29,7 +29,6 @@ const tdps_filtered = computed(() => {
   for( let tdp of tdps.value ){
     if( year_min.value <= tdp['y'] && tdp['y'] <= year_max.value){
       if( league_filter[tdp['l']] ){
-        console.log(teamname_filter.value)
         if (teamname_filter.value.length == 0){
           tdps_filtered_list.push(tdp)
         } else {
@@ -50,7 +49,7 @@ onBeforeMount(async () => {
   console.log("onBeforeMount()")
 
   let API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
-  //API_URL = "http://"+hostname+":5000"
+  API_URL = "http://"+hostname+":5000"
 
   await axios.get(API_URL + '/api/tdps').then((response) => {
     console.log("Axios response retrieved")
@@ -73,9 +72,9 @@ onBeforeMount(async () => {
     Object.keys(_league_map).map( key => {
       league_filter[key] = false
     })
-    league_filter[9] = true
-    league_filter[10] = true
-    league_filter[11] = true
+    // league_filter[9] = true
+    // league_filter[10] = true
+    // league_filter[11] = true
 
     // For each league in league_map
     for (let [key, [name, name_pretty]] of Object.entries(_league_map)) {
@@ -135,15 +134,16 @@ function toTdpPath(league_name, year, teamname){
 
       <br>
 
-      <div class="input-group">
+      <!-- <div class="input-group">
         <span class="input-group-text">
           <b>Team name</b>
         </span>
-        <select class="form-select form-control" aria-label="Default select example">
+        <select class="form-select form-control" value="">
           <option v-for="team in teamname_map">{{team[1]}}</option>
         </select>
       </div>
-      <br>
+
+      <br> -->
 
       <!-- Year range -->
       <div class="input-group">

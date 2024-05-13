@@ -18,7 +18,7 @@ const tdp_name = path_parts[path_parts.indexOf('tdp')+1]
 const show_html = ref(false);
 
 let API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
-//API_URL = "http://"+hostname+":5000"
+API_URL = "http://"+hostname+":5000"
 
 </script>
 

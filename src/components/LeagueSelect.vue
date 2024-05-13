@@ -9,6 +9,11 @@ const props = defineProps({
 
 let league_filter_collapsed = ref(false)
 
+function allLeaguesActive(){
+    let all_filter_values = Object.values(props.league_filter)
+    return !all_filter_values.includes(true)
+}
+
 function leagueIsActive(ids){
     return !ids.map(id => props.league_filter[id]).includes(false)
 }
