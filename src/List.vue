@@ -49,7 +49,7 @@ onBeforeMount(async () => {
   console.log("onBeforeMount()")
 
   let API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
-  API_URL = "http://"+hostname+":5000"
+  //API_URL = "http://"+hostname+":5000"
 
   await axios.get(API_URL + '/api/tdps').then((response) => {
     console.log("Axios response retrieved")
