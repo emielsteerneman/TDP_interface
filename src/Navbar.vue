@@ -29,7 +29,7 @@
                     </li>
                 </ul>
                 <form class="d-flex ms-auto me-auto flex-fill" action="/query">
-                    <input class="form-control" id="searchbox" type="search" placeholder="Search" name="q">
+                    <input class="form-control" id="searchbox" type="search" placeholder="Search" name="query">
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
             </div>

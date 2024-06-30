@@ -4,10 +4,12 @@ import { ref, computed } from 'vue'
 import List from './List.vue'
 import TDP from './TDP.vue'
 import Navbar from './Navbar.vue'
+import Query from './Query.vue'
 
 const routes = {
   '/': List,
-  '/tdp': TDP
+  '/tdp': TDP,
+  '/query': Query,
 }
 
 const currentPath = ref(window.location.pathname)

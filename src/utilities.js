@@ -15,4 +15,10 @@ function to_yearleagueteam(tdps){
     return yearleagueteam
 }
 
-export { to_yearleagueteam }
+function get_query_parameter_from_url(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('query')
+    return query
+}
+
+export { to_yearleagueteam, get_query_parameter_from_url }
