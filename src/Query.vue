@@ -2,7 +2,6 @@
 import { ref, computed, reactive, onBeforeMount } from 'vue'
 import axios from 'axios';
 import TDPBlade from './components/TDPBlade.vue'
-import LeagueSelect from './components/LeagueSelect.vue';
 
 import { to_yearleagueteam, get_query_parameter_from_url } from './utilities';
 
@@ -161,8 +160,6 @@ function highlight_words(text, words){
       </div>
 
       <br>
-
-      <LeagueSelect :league_filter :league_nav />
 
       <br>
     </div>
