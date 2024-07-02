@@ -69,7 +69,8 @@ export const useTdpStore = defineStore('tdp', () => {
         console.log("[tdpStore.js] fetch()")
         isLoading.value = true
         try {
-            const response = await axios.get('http://localhost:5000/api/tdps')
+            // const response = await axios.get('http://localhost:5000/api/tdps')
+            const response = await axios.get('https://functionapp-test-dotenv-310.azurewebsites.net/api/tdps')
             console.log(response.data)
     
             response_data = response.data
