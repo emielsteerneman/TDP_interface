@@ -51,7 +51,6 @@ const currentView = computed(() => {
     return routes[route] || List
 })
 
-
 onBeforeMount(() => {
     console.log("[App][onBeforeMount]", currentPath.value)
     if(!currentPath.value.startsWith('/tdp'))

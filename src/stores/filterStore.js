@@ -11,7 +11,7 @@ export const useFilterStore = defineStore('filter', () => {
     const current_year = new Date().getFullYear()
     const year_range = Array.from({length: 25}, (_, i) => current_year-i)
 
-    const year_min = ref(current_year-10)
+    const year_min = ref(2000)
     const year_max = ref(current_year)
 
     function league_is_active(league_id){
