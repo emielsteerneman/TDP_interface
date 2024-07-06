@@ -59,8 +59,8 @@ function highlight_words(text, words){
         <template v-for="result in queryStore.search_results['paragraphs']">
             <hr>
             <div class="row" style="font-weight: bold; font-size: 1.2em;">
-                <div class="col-md-7"> {{ result['title'] }} </div>
-                <div class="col-md-5"> 
+                <div class="col-md-6"> {{ result['title'] }} </div>
+                <div class="col-md-6"> 
                     {{ result['tdp_name']['team_name']['name_pretty'] }} -
                     {{ result['tdp_name']['league']['name_pretty'] }} - 
                     {{ result['tdp_name']['year'] }}
