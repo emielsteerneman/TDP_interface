@@ -3,7 +3,7 @@ import { ref, computed, reactive, onBeforeMount } from 'vue'
 // import axios from 'axios';
 
 
-import { get_query_parameter_from_url } from './utilities';
+import { get_query_parameter_from_url, to_tdp_path } from './utilities';
 
 import { useQueryStore } from './stores/queryStore'
 
@@ -38,6 +38,14 @@ function highlight_words(text, words){
     return text
 }
 
+function to_path(result){
+    const league = result['tdp_name']['league']['name']
+    const year = result['tdp_name']['year']
+    const team = result['tdp_name']['team_name']['name']
+    console.log("[to_path]", to_tdp_path(league, year, team))
+    return to_tdp_path(league, year, team)
+}
+
 </script>
 
 <template>
@@ -58,14 +66,16 @@ function highlight_words(text, words){
         
         <template v-for="result in queryStore.search_results['paragraphs']">
             <hr>
-            <div class="row" style="font-weight: bold; font-size: 1.2em;">
-                <div class="col-md-6"> {{ result['title'] }} </div>
-                <div class="col-md-6"> 
-                    {{ result['tdp_name']['team_name']['name_pretty'] }} -
-                    {{ result['tdp_name']['league']['name_pretty'] }} - 
-                    {{ result['tdp_name']['year'] }}
+            <a :href="'#/tdp/' + to_path(result)" target="_blank">
+                <div class="row" style="font-weight: bold; font-size: 1.2em;">
+                    <div class="col-md-5"> {{ result['title'] }} </div>
+                    <div class="col-md-7 text-end"> 
+                        {{ result['tdp_name']['team_name']['name_pretty'] }} -
+                        {{ result['tdp_name']['league']['name_pretty'] }} - 
+                        {{ result['tdp_name']['year'] }}
+                    </div>
                 </div>
-            </div>
+            </a>
             
             <template v-if="result['questions'].length">
                 

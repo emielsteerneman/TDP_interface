@@ -33,9 +33,9 @@ function get_query_parameter_from_url(){
     return query.trim()
 }
 
-function toTdpPath(league_name, year, teamname){
+function to_tdp_path(league_name, year, teamname){
     return league_name + '__' + year + '__' + teamname + '__0'
 }
 
 
-export { to_yearleagueteam, get_query_parameter_from_url, toTdpPath }
+export { to_yearleagueteam, get_query_parameter_from_url, to_tdp_path }

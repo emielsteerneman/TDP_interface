@@ -3,7 +3,7 @@ import { ref, computed, reactive, onBeforeMount } from 'vue'
 import axios from 'axios';
 import TDPBlade from './components/TDPBlade.vue'
 
-import { to_yearleagueteam } from './utilities';
+import { to_yearleagueteam, to_tdp_path } from './utilities';
 
 import { useTdpStore } from './stores/tdpStore';
 import { useFilterStore } from './stores/filterStore';
@@ -57,10 +57,6 @@ const tdps_filtered_has_results = computed(() => {
     return 0 < Object.keys(tdps_filtered.value).length
 })
 
-function toTdpPath(league_name, year, teamname){
-    return league_name + '__' + year + '__' + teamname + '__0'
-}
-
 </script>
 
 <template>
@@ -79,7 +75,7 @@ function toTdpPath(league_name, year, teamname){
                         
                         <!-- For every team within year and league-->
                         <template v-for = "team_idx in tdps_filtered[year][league_idx]">
-                            <a :href="'#/tdp/' + toTdpPath(league_name, year, tdp_store.get_team(team_idx) )" target="_blank">
+                            <a :href="'#/tdp/' + to_tdp_path(league_name, year, tdp_store.get_team(team_idx) )" target="_blank">
                                 <div style="display: inline-block; padding: 10px;">
                                     {{ tdp_store.get_team_pretty(team_idx) }}
                                 </div>
