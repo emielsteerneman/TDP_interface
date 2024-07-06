@@ -6,12 +6,14 @@ import LeagueFilter from './components/LeagueFilter.vue'
 import List from './List.vue'
 import TDP from './TDP.vue'
 import Query from './Query.vue'
-import TestStore from './TestStore.vue'
 import { useTdpStore } from './stores/tdpStore'
+import { useQueryStore } from './stores/queryStore'
 import { onBeforeMount } from 'vue'
 
 const tdp_store = useTdpStore()
+const queryStore = useQueryStore()
 
+const random_number = Math.random()
 
 const routes = {
     '/' : List,
@@ -41,12 +43,16 @@ const currentView = computed(() => {
 
     let route = '/'
     for (let route_key of Object.keys(routes)){
-        console.log("  - Checking if", currentPath.value, "starts with", route_key)
+        // console.log("  - Checking if", currentPath.value, "starts with", route_key)
         if (currentPath.value.startsWith(route_key)){
             route = route_key
         }
     }
     console.log("  Setting route to", route)
+
+    if (route == '/query'){
+        queryStore.update_query_from_url()
+    }
 
     return routes[route] || List
 })
@@ -64,7 +70,7 @@ onBeforeMount(() => {
 
     <Navbar />
     <br><br><br>
-
+    
     <template v-if="currentPath.startsWith('/tdp')">
         <component :is="currentView" />
     </template>

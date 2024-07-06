@@ -15,10 +15,27 @@ function to_yearleagueteam(tdps){
     return yearleagueteam
 }
 
+function parse_query_params(hash){
+    const queryIndex = hash.indexOf('?');
+    if (queryIndex !== -1) {
+        return new URLSearchParams(hash.slice(queryIndex));
+    }
+    return new URLSearchParams();
+};
+
 function get_query_parameter_from_url(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('query')
-    return query
+    console.log("[get_query_parameter_from_url] window.location.search: ", window.location.search)
+    // const urlParams = new URLSearchParams(window.location.search)
+    const urlParams = parse_query_params(window.location.hash)
+    const query = urlParams.get('query') || ''
+    console.log("[get_query_parameter_from_url] query: ", query)
+    console.log("[get_query_parameter_from_url]", urlParams.get('query'))
+    return query.trim()
 }
 
-export { to_yearleagueteam, get_query_parameter_from_url }
+function toTdpPath(league_name, year, teamname){
+    return league_name + '__' + year + '__' + teamname + '__0'
+}
+
+
+export { to_yearleagueteam, get_query_parameter_from_url, toTdpPath }
