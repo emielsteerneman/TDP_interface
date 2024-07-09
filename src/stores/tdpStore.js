@@ -5,8 +5,6 @@ import { useFilterStore } from "./filterStore";
 
 function create_navigation(league_map){
 
-    console.log(league_map)
-
     // Create the navigation object
     let nav = { 'sublevels': {}, 'leagues': [] }
     
@@ -53,8 +51,6 @@ export const useTdpStore = defineStore('tdp', () => {
     const filter_store = useFilterStore()
 
     const navigation = computed(() => {
-        console.log("[tdpStore.js] computing navigation..")
-        
         if (!isFetched.value) return null
     
         // let names_pretty = Object.values(league_map.value).map(x => x[1])
@@ -69,7 +65,6 @@ export const useTdpStore = defineStore('tdp', () => {
         console.log("[tdpStore.js] fetch()")
         isLoading.value = true
         try {
-            // const response = await axios.get('http://localhost:5000/api/tdps')
             const response = await axios.get('https://functionapp-test-dotenv-310.azurewebsites.net/api/tdps')
             console.log(response.data)
     

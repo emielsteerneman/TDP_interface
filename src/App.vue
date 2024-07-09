@@ -29,8 +29,6 @@ if (currentPath.value.startsWith("#")){
     currentPath.value = currentPath.value.slice(1)
 }
 
-console.log("??", window.location.hash, window.location.pathname, currentPath.value)
-
 window.addEventListener('hashchange', () => {
     currentPath.value = window.location.hash
     if (currentPath.value.startsWith("#")){

@@ -42,7 +42,6 @@ function to_path(result){
     const league = result['tdp_name']['league']['name']
     const year = result['tdp_name']['year']
     const team = result['tdp_name']['team_name']['name']
-    console.log("[to_path]", to_tdp_path(league, year, team))
     return to_tdp_path(league, year, team)
 }
 

@@ -6,6 +6,7 @@ const query = ref(get_query_parameter_from_url())
 console.log("[Navbar] query =", query.value)
 
 function handleSearch() {
+    console.log("[Navbar] Updating window url")
     window.location.href = "/#/query?query=" + query.value
 }
 </script>

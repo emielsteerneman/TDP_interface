@@ -54,13 +54,13 @@ function toggleLeague(ids){
             <span class="input-group-text">
                 <b>From</b>
             </span>
-            <select class="form-select form-control" v-model.number="filter_store.year_min">
+            <select class="form-select form-control" v-model.number="filter_store.year_from">
                 <option v-for="year in year_range" >{{year}}</option>
             </select>
             <span class="input-group-text">
                 <b>To</b>
             </span>
-            <select class="form-select" v-model.number="filter_store.year_max">
+            <select class="form-select" v-model.number="filter_store.year_to">
                 <option v-for="year in year_range" >{{year}}</option>
             </select>
         </div>

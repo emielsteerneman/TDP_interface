@@ -32,7 +32,7 @@ const tdps_filtered = computed(() => {
         let league = tdp['l']
         let teamname = tdp['t']
         
-        if( filter_store.year_min <= year && year <= filter_store.year_max){
+        if( filter_store.year_from <= year && year <= filter_store.year_to){
             if( filter_store.league_is_active(league) ){
                 let teamname_filter = filter_store.teamname_filter.toLowerCase()
                 if (teamname_filter.length == 0){
