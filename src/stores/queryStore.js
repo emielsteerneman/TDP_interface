@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useTdpStore } from './tdpStore.js'
 import { useFilterStore } from './filterStore.js'
-import { get_query_parameter_from_url } from '../utilities.js'
+import { API_URL, get_query_parameter_from_url } from '../utilities.js'
 import axios from 'axios';
 
 export const useQueryStore = defineStore('query', () => {
@@ -37,8 +37,6 @@ export const useQueryStore = defineStore('query', () => {
             return
         }
 
-        let API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
-        
         // Create the filter string
         let filter_string = ""
         

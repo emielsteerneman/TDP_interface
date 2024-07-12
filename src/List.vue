@@ -75,7 +75,7 @@ const tdps_filtered_has_results = computed(() => {
                         
                         <!-- For every team within year and league-->
                         <template v-for = "team_idx in tdps_filtered[year][league_idx]">
-                            <a :href="'#/tdp/' + to_tdp_path(league_name, year, tdp_store.get_team(team_idx) )" target="_blank">
+                            <a :href="'#/tdp/' + to_tdp_path(league_name, year, tdp_store.get_team(team_idx) ) + '?ref=list'" target="_blank">
                                 <div style="display: inline-block; padding: 10px;">
                                     {{ tdp_store.get_team_pretty(team_idx) }}
                                 </div>

@@ -1,3 +1,6 @@
+const API_URL = "http://localhost:5000"
+// const API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
+
 function to_yearleagueteam(tdps){
     let yearleagueteam = {}
     for( let tdp of tdps ){
@@ -34,4 +37,4 @@ function to_tdp_path(league_name, year, teamname){
 }
 
 
-export { to_yearleagueteam, get_query_parameter_from_url, to_tdp_path }
+export { API_URL, to_yearleagueteam, get_query_parameter_from_url, to_tdp_path }

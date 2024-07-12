@@ -65,7 +65,7 @@ function to_path(result){
         
         <template v-for="result in queryStore.search_results['paragraphs']">
             <hr>
-            <a :href="'#/tdp/' + to_path(result)" target="_blank">
+            <a :href="'#/tdp/' + to_path(result) + '?ref=list'" target="_blank">
                 <div class="row" style="font-weight: bold; font-size: 1.2em;">
                     <div class="col-md-5"> {{ result['title'] }} </div>
                     <div class="col-md-7 text-end"> 

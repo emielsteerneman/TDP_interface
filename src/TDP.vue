@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import { API_URL } from '@/utilities'
+
 const hostname = window.location.hostname
 
 let currentPath = window.location.pathname
@@ -16,9 +18,6 @@ console.log(path_parts)
 const tdp_name = path_parts[path_parts.indexOf('tdp')+1]
 
 const show_html = ref(true);
-
-let API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
-//API_URL = "http://"+hostname+":5000"
 
 </script>
                                                                                                                                                                                                            
