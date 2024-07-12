@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:5000"
-// const API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
+// const API_URL = "http://localhost:5000"
+const API_URL = "https://functionapp-test-dotenv-310.azurewebsites.net"
 
 function to_yearleagueteam(tdps){
     let yearleagueteam = {}
