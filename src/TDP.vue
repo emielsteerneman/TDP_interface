@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { API_URL } from '@/utilities'
+import { API_URL, get_param_from_url } from '@/utilities'
 
 const hostname = window.location.hostname
 
@@ -15,7 +15,10 @@ if (currentPath.startsWith("#")){
 const path_parts = currentPath.split('/')
 console.log(path_parts)
 // find 'tdp' in path_parts
-const tdp_name = path_parts[path_parts.indexOf('tdp')+1]
+let tdp_name = path_parts[path_parts.indexOf('tdp')+1]
+tdp_name = tdp_name.split('?')[0]
+
+const referer = get_param_from_url('ref')
 
 const show_html = ref(true);
 
@@ -27,7 +30,7 @@ const show_html = ref(true);
 
     <template v-if="show_html">
 
-        <iframe :src="API_URL + '/api/tdp/' + tdp_name + '/html'" width="100%" height="1000px" frameborder="0"></iframe>
+        <iframe :src="API_URL + '/api/tdp/' + tdp_name + '/html?ref=' + referer" width="100%" height="1000px" frameborder="0"></iframe>
         <!-- <iframe src="https://tdps.blob.core.windows.net/tdps/html/soccer/smallsize/2024/soccer_smallsize__2024__RoboIME__0.html" width="100%" height="1000px" frameborder="0"></iframe> -->
 
     </template>

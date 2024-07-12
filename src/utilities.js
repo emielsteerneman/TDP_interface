@@ -26,10 +26,14 @@ function parse_query_params(hash){
     return new URLSearchParams();
 };
 
-function get_query_parameter_from_url(){
+function get_param_from_url(param){
     const urlParams = parse_query_params(window.location.hash)
-    const query = urlParams.get('query') || ''
-    return query.trim()
+    const value = urlParams.get(param) || ''
+    return value.trim()
+}
+
+function get_query_parameter_from_url(){
+    return get_param_from_url('query')
 }
 
 function to_tdp_path(league_name, year, teamname){
@@ -37,4 +41,4 @@ function to_tdp_path(league_name, year, teamname){
 }
 
 
-export { API_URL, to_yearleagueteam, get_query_parameter_from_url, to_tdp_path }
+export { API_URL, to_yearleagueteam, get_param_from_url, get_query_parameter_from_url, to_tdp_path }

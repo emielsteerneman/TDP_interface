@@ -39,6 +39,22 @@ export const useFilterStore = defineStore('filter', () => {
         league_filter.value[league_id] = is_active
     }
 
-    return { league_is_active, set_league, set_league_map, get_active_league_names, teamname_filter, year_from, year_to, year_min, year_max }
+    function get_filter_string_for_url(){
+        let filter_string = ""
+        const active_league_names = get_active_league_names()
+        if(active_league_names.length > 0){
+            filter_string += "&leagues=" + active_league_names.join(",")
+        }
+        if(year_min < year_from.value){
+            filter_string += "&year_min=" + year_from.value
+        }
+        if(year_max > year_to.value){
+            filter_string += "&year_max=" + year_to.value
+        }
+        return filter_string
+    
+    }
+
+    return { league_is_active, set_league, set_league_map, get_active_league_names, teamname_filter, year_from, year_to, year_min, year_max, get_filter_string_for_url }
 
 })

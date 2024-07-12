@@ -13,9 +13,11 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "marked": "^13.0.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
-    "vue-axios": "^3.5.2"
+    "vue-axios": "^3.5.2",
+    "vue3-spinners": "^1.2.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
