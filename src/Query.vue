@@ -1,5 +1,6 @@
 <script setup>
 
+import { ref } from 'vue';
 import { to_tdp_path } from './utilities';
 import { marked } from 'marked';
 
@@ -10,6 +11,7 @@ import { VueSpinner } from 'vue3-spinners';
 
 const queryStore = useQueryStore()
 const llmStore = useLlmStore()
+const show_llm_input = ref(false)
 
 function getIndicesOf(searchStr, str, caseSensitive) {
     var searchStrLen = searchStr.length;
@@ -55,47 +57,81 @@ function to_path(result){
         <div v-if="llmStore.search_state == 'WAITING'">
             <div class="col-md-8 offset-md-2">
                 <h3 class="text-center">Asking LLM. This will take some time.. <VueSpinner /></h3>
-                <p class="text-center"><h4>Help keep this feature alive!</h4></p>
-                <p class="text-center">Every answer costs me around <b>10 cents</b>. I'm putting in my own money during the RoboCup. 
+                <br>
+                <h4 class="text-center">Help keep this feature alive!</h4>
+                <p class="text-start">Every <b>GPT 3.5</b> answer costs me around <b>1 cent</b>. I'm putting in my own money during the RoboCup. 
                 Is your team willing to help me out? Please reach out to me at emielsteerneman@gmail.com </p>
+                <br>
+                <h4 class="text-center">Help improve this feature!</h4>
+                <p class="text-start">
+                    <b>Quality:</b> Every <b>GPT 4o</b> answer costs me around <b>10 cent</b>. It's answers are significantly better but also very expensive.
+                    <br>
+                    <b>Speed:</b> This search engine runs mostly on Azure free tier. Upgrading to a paid tier would make it faster but also more expensive.
+                </p>
+
+
             </div>
         </div>
-
         
-        <div v-if="llmStore.llm_response.length">
-            <h3 class="text-center">LLM Response</h3>
-            <hr>
+        <template v-if="llmStore.search_state=='DONE'">
+
+            <!-- BUTTONS -->
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="text-start">LLM Response</h3>
+                </div>
+                <div class="col-md-4 d-grid">
+                    <button class="btn btn-outline-primary" type="button" @click="llmStore.search_state='INACTIVE'">Go back to the search results</button>
+                </div>
+                <div class="col-md-4 d-grid">
+                    <button class="btn btn-outline-primary" type="button" @click="show_llm_input = !show_llm_input">{{ show_llm_input ? 'Hide' : 'Show' }} the LLM input</button>
+                </div>
+            </div>
+
+            <!-- LLM TEXT -->
+            <hr style="margin-top: 10px;">
+            <div class="col-md-12" v-if="show_llm_input">
+
+                You are a helpful and knowledgeable assistant. You will be asked a question from a participant in the Robocup. The RoboCup is an international scientific initiative with the goal to advance the state of the art of intelligent robots. Every year, teams from all over the world compete in various robot leagues and robot soccer matches. The Robocup is all about sharing knowledge, collaboration, and friendly competition. You are a helpful and knowledgeable assistant. 
+                You will be given a question and a list of paragraphs. Answer the question based on the information in the paragraphs. Always cite the team and year and number of the source paragraph for every piece of information you provide. Your answer should be concise and to the point. If you don't know the answer, you can say 'I don't know'.The answer should encourage the participant to do its own research. Maybe ask a question back to the participant or suggest follow-up research. 
+                Again, it is absolutely important to always cite the source of your information. Always provide the paragraph title.
+
+                For each paragraph given, answer the following question (ignore paragraphs without relevant data), and end with a summary: " {{ queryStore.query}} "
+
+                <div v-html="llmStore.llm_input"></div>
+            </div>
             <div class="col-md-12">
                 <div v-html="marked.parse(llmStore.llm_response)"></div>
             </div>
-        </div>
-
+        </template>
 
         <template v-if="llmStore.search_state == 'INACTIVE'">
-            <div v-if="queryStore.search_state == 'WAITING'">
+            <template v-if="queryStore.search_state == 'WAITING'">
                 <h3 class="text-center">"{{ queryStore.query }}" - Searching <VueSpinner/></h3>
-            </div>
-            <div v-else-if="queryStore.search_state == 'EMPTY'">
+            </template>
+            <template v-else-if="queryStore.search_state == 'EMPTY'">
                 <h3 class="text-center">Empty search query</h3>
-            </div>
-            <div v-else-if="queryStore.search_state == 'DONE'">
-                <h3 class="text-center">"{{ queryStore.query }}" - Retrieved {{ queryStore.search_results['paragraphs'].length }} results</h3>
-            </div>
-            <div v-else-if="queryStore.search_state == 'ERROR'">
-                <h3 class="text-center">Error</h3>
-            </div>
-            
-            <div class="d-grid" v-if="llmStore.search_state == 'INACTIVE' && queryStore.search_state == 'DONE'">
-                <button class="btn btn-primary" type="button" @click="llmStore.do_query">Ask LLM (while the money lasts)</button>
-            </div>
+            </template>
+            <template v-else-if="queryStore.search_state == 'DONE'">
+                <div class="col-md-8">
+                    <h3 class="text-start">"{{ queryStore.query }}" - {{ queryStore.search_results['paragraphs'].length }} results</h3>
+                </div>
+                <div class="col-md-4 d-grid">
+                    <button class="btn btn-outline-primary" type="button" @click="llmStore.do_query">Ask LLM (while the money lasts)</button>
+                </div>
+            </template>
 
-            <div v-if="queryStore.error_message.length">
+            <template v-else-if="queryStore.search_state == 'ERROR'">
+                <h3 class="text-center">Error</h3>
+            </template>
+            
+            <template v-if="queryStore.error_message.length">
                 <br><br>
                 <h4 class="text-center">{{ queryStore.error_message }}</h4>
-            </div>
+            </template>
             
             <template v-for="result in queryStore.search_results['paragraphs']">
-                <hr>
+                <hr style="margin-top: 10px;">
                 <a :href="'#/tdp/' + to_path(result) + '?ref=list'" target="_blank">
                     <div class="row" style="font-weight: bold; font-size: 1.2em;">
                         <div class="col-md-5"> {{ result['title'] }} </div>

@@ -25,17 +25,9 @@ export const useLlmStore = defineStore('llm', () => {
 
         axios.get(API_URL + '/api/query/llm?query=' + query + filter_string).then((response) => {
             console.log("[llmStore][do_query] vvv Axios response retrieved vvv")
-            console.log(response.data)
 
-            llm_input.value = response.data['llm_input']
+            llm_input.value = response.data['llm_input'].replace(/\n/g, "<br>")
             llm_response.value = response.data['llm_response']
-
-            navigator.clipboard.writeText("HellowRodl").then(() => {
-                console.log("Copied to clipboard")
-            }).catch((error) => {
-                console.log("Failed to copy to clipboard")
-                console.log(error)
-            })
 
             search_state.value = "DONE"
         }).catch((error) => {
@@ -66,5 +58,5 @@ export const useLlmStore = defineStore('llm', () => {
         error_message.value = ""
     }
 
-    return { do_query, llm_response, search_state, error_message, reset }
+    return { do_query, llm_response, llm_input, search_state, error_message, reset }
 })
