@@ -52,11 +52,13 @@ function to_path(result){
     <!-- league nested menu -->
     <div class="row">
 
-        <div v-if="llmStore.search_state == 'INACTIVE'">
-            <div class="btn btn-primary" @click="llmStore.do_query">Ask LLM</div>
-        </div>
-        <div v-else-if="llmStore.search_state == 'WAITING'">
-            <h3 class="text-center">Asking LLM... <VueSpinner /></h3>
+        <div v-if="llmStore.search_state == 'WAITING'">
+            <div class="col-md-8 offset-md-2">
+                <h3 class="text-center">Asking LLM. This will take some time.. <VueSpinner /></h3>
+                <p class="text-center"><h4>Help keep this feature alive!</h4></p>
+                <p class="text-center">Every answer costs me around <b>10 cents</b>. I'm putting in my own money during the RoboCup. 
+                Is your team willing to help me out? Please reach out to me at emielsteerneman@gmail.com </p>
+            </div>
         </div>
 
         
@@ -81,6 +83,10 @@ function to_path(result){
             </div>
             <div v-else-if="queryStore.search_state == 'ERROR'">
                 <h3 class="text-center">Error</h3>
+            </div>
+            
+            <div class="d-grid" v-if="llmStore.search_state == 'INACTIVE' && queryStore.search_state == 'DONE'">
+                <button class="btn btn-primary" type="button" @click="llmStore.do_query">Ask LLM (while the money lasts)</button>
             </div>
 
             <div v-if="queryStore.error_message.length">

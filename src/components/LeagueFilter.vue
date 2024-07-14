@@ -3,6 +3,7 @@
 import { ref } from 'vue'
 import { useTdpStore } from '@/stores/tdpStore.js'
 import { useFilterStore } from '@/stores/filterStore.js';
+import { VueSpinner } from 'vue3-spinners';
 
 const tdp_store = useTdpStore()
 const filter_store = useFilterStore()
@@ -34,12 +35,12 @@ function toggleLeague(ids){
 
 <template>
     <template v-if="tdp_store.isLoading">
-        Loading leagues...
+        <h2>Loading leagues <VueSpinner/> </h2>
     </template>
     
     <template v-if="tdp_store.isFetched">
         
-        <!-- Team name filter -->
+        <!-- Team name filter 
         <div class="input-group">
             <span class="input-group-text">
                 <b>Team name</b>
@@ -47,7 +48,7 @@ function toggleLeague(ids){
             <input type="text" class="form-control" v-model="filter_store.teamname_filter">
         </div>
         
-        <br>
+        <br>-->
         
         <!-- Year range -->
         <div class="input-group">

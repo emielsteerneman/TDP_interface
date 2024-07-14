@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { ref, computed } from "vue";
 import { useFilterStore } from "./filterStore";
+import { API_URL } from '@/utilities.js'
 
 function create_navigation(league_map){
 
@@ -65,7 +66,7 @@ export const useTdpStore = defineStore('tdp', () => {
         console.log("[tdpStore.js] fetch()")
         isLoading.value = true
         try {
-            const response = await axios.get('https://functionapp-test-dotenv-310.azurewebsites.net/api/tdps')
+            const response = await axios.get(API_URL + '/api/tdps')
             console.log(response.data)
     
             response_data = response.data

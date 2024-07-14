@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useFilterStore } from './filterStore.js'
 import { useLlmStore } from "./llmStore.js";
-import { API_URL, get_query_parameter_from_url } from '../utilities.js'
+import { API_URL, get_query_parameter_from_url } from '@/utilities.js'
 import axios from 'axios';
 
 export const useQueryStore = defineStore('query', () => {
