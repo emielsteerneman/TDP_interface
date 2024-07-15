@@ -64,6 +64,9 @@ export const useTdpStore = defineStore('tdp', () => {
   
     async function fetch() {
         console.log("[tdpStore.js] fetch()")
+
+        if(isLoading.value) return
+
         isLoading.value = true
         try {
             const response = await axios.get(API_URL + '/api/tdps')

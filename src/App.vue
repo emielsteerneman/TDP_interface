@@ -52,6 +52,10 @@ const currentView = computed(() => {
         queryStore.update_query_from_url()
     }
 
+    if (route == '/' && !tdp_store.isFetched){
+        tdp_store.fetch()
+    }
+
     return routes[route] || List
 })
 
