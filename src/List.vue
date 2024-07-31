@@ -1,7 +1,5 @@
 <script setup>
-import { ref, computed, reactive, onBeforeMount } from 'vue'
-import axios from 'axios';
-import TDPBlade from './components/TDPBlade.vue'
+import { computed } from 'vue'
 
 import { to_yearleagueteam, to_tdp_path } from './utilities';
 

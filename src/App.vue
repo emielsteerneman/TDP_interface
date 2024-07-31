@@ -13,8 +13,6 @@ import { onBeforeMount } from 'vue'
 const tdp_store = useTdpStore()
 const queryStore = useQueryStore()
 
-const random_number = Math.random()
-
 const routes = {
     '/' : List,
     '/tdp': TDP,
