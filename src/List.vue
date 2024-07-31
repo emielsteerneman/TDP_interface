@@ -96,11 +96,11 @@ const tdps_filtered_has_results = computed(() => {
                 "By the middle of the 21st century, a team of fully autonomous humanoid robot soccer players shall win a soccer game, complying with the official rules of FIFA, against the winner of the most recent World Cup."
             </p>
             <p align="justify">
-                We are all working towards the same goal. What I love about the Small Size League is that, while 
+                We are all working towards the same goal. What I love about the RoboCup is that, while 
                 we're opponents on the field, we're always ready to help one another with development and improvement. 
                 I am not only referring to the currently existing teams and their members, but also all those that came before us. 
-                All of these teams are helping us by sharing their knowledge through the TDPs and ETDPs (634 papers in my collection and counting). 
-                Reading 634 papers is of course impossible. Therefore, to keep our inspiration and innovation going, 
+                All of these teams are helping us by sharing their knowledge through the TDPs and ETDPs (over 2000 papers in my collection and counting). 
+                Reading 2000 papers is of course impossible. Therefore, to keep our inspiration and innovation going, 
                 RoboTeam Twente has made this information more accessible through this (E)TDP Search Engine.
             </p>
         </div>

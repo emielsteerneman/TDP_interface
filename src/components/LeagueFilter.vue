@@ -82,14 +82,14 @@ function toggleLeague(ids){
                 <!-- Major-->
                 <template v-for="[name_major, k_major] in Object.entries(tdp_store.navigation.sublevels)">
                     <li class="list-group-item pointer" @click="toggleLeague(k_major.leagues)">
-                        <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_major.leagues)" style="margin-right:15px"> <b>{{ name_major }}</b>
+                        <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_major.leagues)" style="margin-right:15px"> <b>{{ name_major }} ({{ k_major['n'] }})</b>
                     </li>
                     
                     <!-- Minor-->
                     <template v-for="[name_minor, k_minor] in Object.entries(k_major.sublevels)">
                         <li class="list-group-item" @click="toggleLeague(k_minor.leagues)">
                             <div style="margin-left: 30px;">
-                                <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_minor.leagues)" style="margin-right:15px"> {{ name_minor }}
+                                <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_minor.leagues)" style="margin-right:15px"> {{ name_minor }} ({{ k_minor['n'] }})
                             </div>
                         </li>
                         
@@ -97,7 +97,7 @@ function toggleLeague(ids){
                         <template v-for="[name_sub, k_sub] in Object.entries(k_minor.sublevels)">
                             <li class="list-group-item" @click="toggleLeague(k_sub.leagues)">
                                 <div style="margin-left: 60px;">
-                                    <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_sub.leagues)" style="margin-right:15px"> {{ name_sub }}
+                                    <input class="form-check-input" type="checkbox" :checked="leagueIsActive(k_sub.leagues)" style="margin-right:15px"> {{ name_sub }} ({{ k_sub['n'] }})
                                 </div>
                             </li>
                         </template>
