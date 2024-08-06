@@ -82,6 +82,22 @@ onBeforeMount(() => {
             <div class="col-md-9">
                 <component :is="currentView" />
             </div>
+            
+        </div>
+        <div class="row">
+            <div style="margin: 50px;"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="fixed-bottom">
+                    <div style="padding: 10px; background-color: #f8f9fa; border-top: 2px solid #fcc;">
+                        <div class="text-center">
+                            Papers are still being indexed! It might happen that the HTML version of the paper is not available yet, or that 
+                            a paper doesn't show up in the search results.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </template>
 

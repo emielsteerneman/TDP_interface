@@ -40,6 +40,7 @@ function pdf_loaded(){
 
         <template v-if="!frame_html_loaded">
             <h3>Loading document <VueSpinner/></h3>
+            HTML versions might not yet be available for all documents. If you need a PDF version, please click the button above.
         </template>
 
         <iframe ref="frame_html" 
@@ -47,6 +48,8 @@ function pdf_loaded(){
             width="100%" height="1000px" frameborder="0" 
             @load="html_loaded">
         </iframe>
+
+        
         
     </template>
 
