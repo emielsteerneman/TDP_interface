@@ -92,7 +92,8 @@ onBeforeMount(() => {
                 <div class="fixed-bottom">
                     <div style="padding: 10px; background-color: #f8f9fa; border-top: 2px solid #fcc;">
                         <div class="text-center">
-                            Papers are still being indexed! It might happen that the HTML version of the paper is not available yet, or that 
+                            <i class="bi bi-exclamation-triangle-fill" style="font-size:1.2em"></i>
+                            Papers are still being processed! It might happen that the HTML version of a paper is not available yet, or that 
                             a paper doesn't show up in the search results.
                         </div>
                     </div>
