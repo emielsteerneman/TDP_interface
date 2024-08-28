@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useQueryStore } from './queryStore.js'
 import { useFilterStore } from './filterStore.js'
-import { API_URL } from '@/utilities.js'
+import { API_URL, SEARCH_DISABLED } from '@/utilities.js'
 import axios from 'axios';
 
 export const useLlmStore = defineStore('llm', () => {
@@ -16,6 +16,11 @@ export const useLlmStore = defineStore('llm', () => {
     const filter_store = useFilterStore()
 
     function do_query(){
+        if(SEARCH_DISABLED){
+            console.log("[llmStore][do_query] SEARCH_DISABLED")
+            return
+        }
+
         console.log("[llmStore][do_query]")
 
         search_state.value = "WAITING"

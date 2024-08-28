@@ -9,6 +9,7 @@ import Query from './Query.vue'
 import { useTdpStore } from './stores/tdpStore'
 import { useQueryStore } from './stores/queryStore'
 import { onBeforeMount } from 'vue'
+import { SEARCH_DISABLED } from './utilities';
 
 const tdp_store = useTdpStore()
 const queryStore = useQueryStore()
@@ -67,7 +68,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-
+    
     <Navbar />
     <br><br><br>
     
@@ -75,6 +76,20 @@ onBeforeMount(() => {
         <component :is="currentView" />
     </template>
     <template v-else>
+
+        <template v-if="SEARCH_DISABLED">
+            <div class="row">
+                <div class="offset-3 col-6 text-center">
+                    <br>
+                    <h2>The search function is temporarily disabled</h2>
+                    I am currently in the process of reindexing all the TDPS. This should take around 24 hours. 
+                    Once the indexing is done, all papers will show up in the search results
+                    <br>
+                </div>
+                <hr>
+            </div>
+        </template>
+
         <div class="row">
             <div class="col-md-3">
                 <LeagueFilter />
