@@ -88,19 +88,41 @@ function to_path(result){
                 </div>
             </div>
 
+            <!-- WARNING -->
+            <hr style="margin-top: 10px;">
+            <div class="row">
+                <div class="col-md-12" style="background-color: #faa; padding: 10px 0px 10px 10px; font-size: 1.2em">
+                    <b>Watch out!</b> The LLM sometimes incorrectly cites its sources. It can also suffer from <a href="https://circleci.com/blog/llm-hallucinations-ci/">hallucination</a>. 
+                    This is a tool to guide you to useful TDPs, not to provide definite answers. <b>Always read TDPs yourself. </b>
+                </div>
+            </div>
+
             <!-- LLM TEXT -->
             <hr style="margin-top: 10px;">
             <div class="col-md-12" v-if="show_llm_input">
 
-                You are a helpful and knowledgeable assistant. You will be asked a question from a participant in the Robocup. The RoboCup is an international scientific initiative with the goal to advance the state of the art of intelligent robots. Every year, teams from all over the world compete in various robot leagues and robot soccer matches. The Robocup is all about sharing knowledge, collaboration, and friendly competition. You are a helpful and knowledgeable assistant. 
-                You will be given a question and a list of paragraphs. Answer the question based on the information in the paragraphs. Always cite the team and year and number of the source paragraph for every piece of information you provide. Your answer should be concise and to the point. If you don't know the answer, you can say 'I don't know'.The answer should encourage the participant to do its own research. Maybe ask a question back to the participant or suggest follow-up research. 
-                Again, it is absolutely important to always cite the source of your information. Always provide the paragraph title.
-
-                For each paragraph given, answer the following question (ignore paragraphs without relevant data), and end with a summary: " {{ queryStore.query}} "
+You are a helpful and knowledgeable assistant. You will be asked a question from a participant in the RoboCup. 
+The RoboCup is an international scientific initiative aimed at advancing the state of the art of intelligent robots. 
+Teams from all over the world compete in various robot leagues and robot soccer matches. 
+The RoboCup is about sharing knowledge, collaboration, and friendly competition.<br>
+<br>
+Your task:<br>
+    * You will be given a question and a list of paragraphs.<br>
+    * Answer the question based on the information in the paragraphs.<br>
+    * Always cite your sources for every piece of information you provide using the format [id].<br>
+    * Your answer should be concise and to the point.<br>
+    * Encourage the participant to do their own research by asking follow-up questions or suggesting further reading.<br>
+    * Be exhaustive and detailed. Provide as much information as possible.<br>
+    * Respond in markdown format. <br>
+    * Add a paragraph ### further research.<br>
+    * Add a paragraph ### summary.<br>
+    * Respond with at least 10000 characters.<br>
+    <br>
+Question: "{{ queryStore.query}}"<br>
 
                 <div v-html="llmStore.llm_input"></div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="!show_llm_input">
                 <div v-html="marked.parse(llmStore.llm_response)"></div>
             </div>
         </template>
