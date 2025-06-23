@@ -71,6 +71,23 @@ onBeforeMount(() => {
     
     <Navbar />
     <br><br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- <div class="fixed-top"> -->
+                <div style="padding: 10px; background-color: #f8f9fa; border-top: 2px solid #cfc;">
+                    <div class="text-center">
+                        <i class="bi bi-search" style="font-size:1.2em"></i>
+                        I am collecting all <b>2025</b> papers. Please send any you have via Discord! 
+                        <a class="nav-link" href="https://discordapp.com/channels/@me/emielsteerneman/">
+                            <i class="bi bi-discord"></i> Discord
+                        </a>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>  
+    <br>
     
     <template v-if="currentPath.startsWith('/tdp')">
         <component :is="currentView" />
@@ -102,7 +119,7 @@ onBeforeMount(() => {
         <div class="row">
             <div style="margin: 50px;"></div>
         </div>
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-12">
                 <div class="fixed-bottom">
                     <div style="padding: 10px; background-color: #f8f9fa; border-top: 2px solid #fcc;">
@@ -114,7 +131,7 @@ onBeforeMount(() => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </template>
 
 </template>
